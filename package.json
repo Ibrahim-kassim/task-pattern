@@ -9,7 +9,11 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "konva": "^9.3.6",
+    "vue": "^3.2.13",
+    "vue-konva": "^3.0.2",
+    "vue-svg-draw": "^1.0.7",
+    "vue3-touch-events": "^4.1.8"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
