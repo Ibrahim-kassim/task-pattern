@@ -223,16 +223,5 @@ export default {
   pointer-events: none; 
 /*  */
 }
-.container{
- align-items: center;
- justify-content: center;
-  background: rgb(245, 235, 235);
-  padding: 4px 4px 4px 4px;
-  height: 500px;
-  widows: 500px;
-  display: flex;
-  position: fixed;
-  top: 20%;
 
-}
 </style>
