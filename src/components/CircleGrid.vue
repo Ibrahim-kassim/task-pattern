@@ -1,10 +1,19 @@
 <template>
-  <div class="circle-grid">
+  <div class="container">
+    <div
+    class="circle-grid"
+    @mousedown="handleMouseDown"
+    @mousemove="handleMouseMove"
+    @mouseup="handleMouseUp"
+    @touchstart="handleTouchStart"
+    @touchmove="handleTouchMove"
+    @touchend="handleTouchEnd"
+  >
     <div
       class="circle"
       v-for="(value, index) in circleValues"
       :key="index"
-      @click="handleCircleClick(value)"
+      :data-value="value"
       :class="{ active: isActiveCircle(value) }"
     >
       {{ value }}
@@ -13,6 +22,7 @@
 
     <button @click="resetPattern">Reset</button>
     <div>{{ patternNumbers.join(' ') }}</div>
+  </div>
   </div>
 </template>
 
@@ -23,12 +33,45 @@ export default {
     return {
       circleValues: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       patternNumbers: [],
+      touching: false,
+      mouseDown: false,
     };
   },
   mounted() {
     this.initializeCanvas();
   },
   methods: {
+    handleTouchStart(event) {
+      this.touching = true;
+      this.handleTouchMove(event); // Handle initial touch
+    },
+    handleTouchMove(event) {
+      if (!this.touching) return;
+      const touch = event.touches[0];
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (element && element.classList.contains('circle')) {
+        const value = parseInt(element.dataset.value, 10);
+        this.handleCircleClick(value);
+      }
+    },
+    handleTouchEnd() {
+      this.touching = false;
+    },
+    handleMouseDown(event) {
+      this.mouseDown = true;
+      this.handleMouseMove(event); // Handle initial click
+    },
+    handleMouseMove(event) {
+      if (!this.mouseDown) return;
+      const element = document.elementFromPoint(event.clientX, event.clientY);
+      if (element && element.classList.contains('circle')) {
+        const value = parseInt(element.dataset.value, 10);
+        this.handleCircleClick(value);
+      }
+    },
+    handleMouseUp() {
+      this.mouseDown = false;
+    },
     handleCircleClick(value) {
       if (this.patternNumbers.length > 0) {
         const lastValue = this.patternNumbers[this.patternNumbers.length - 1];
@@ -168,7 +211,7 @@ export default {
 }
 
 .circle.active {
-  background-color: #2ecc71; /* Change color of active circles */
+  background-color: #2ecc71; 
 }
 
 .canvas {
@@ -177,6 +220,18 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* Allow clicks to pass through to circles */
+  pointer-events: none; 
+}
+.container{
+ align-items: center;
+ justify-content: center;
+  background: rgb(245, 235, 235);
+  padding: 4px 4px 4px 4px;
+  height: 500px;
+  widows: 500px;
+  display: flex;
+  position: fixed;
+  top: 20%;
+
 }
 </style>
