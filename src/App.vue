@@ -2,19 +2,22 @@
 
 <template>
   <div id="app">
-   
-    <CircleGrid/>
+    <gettingValue/>
+    <updateValue/>
    
   </div>
 </template>
 
 <script>
-import CircleGrid from './components/CircleGrid.vue';
+import gettingValue from "./components/gettingValue.vue"
+import updateValue from "./components/updateValue.vue"
 
 export default {
   name: 'App',
   components: {
-    CircleGrid
+
+    gettingValue,
+    updateValue
   }
 }
 </script>

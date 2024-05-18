@@ -1,28 +1,27 @@
 <template>
   <div class="container">
     <div
-    class="circle-grid"
-    @mousedown="handleMouseDown"
-    @mousemove="handleMouseMove"
-    @mouseup="handleMouseUp"
-    @touchstart="handleTouchStart"
-    @touchmove="handleTouchMove"
-    @touchend="handleTouchEnd"
-  >
-    <div
-      class="circle"
-      v-for="(value, index) in circleValues"
-      :key="index"
-      :data-value="value"
-      :class="{ active: isActiveCircle(value) }"
+      class="circle-grid"
+      @mousedown="handleMouseDown"
+      @mousemove="handleMouseMove"
+      @mouseup="handleMouseUp"
+      @touchstart="handleTouchStart"
+      @touchmove="handleTouchMove"
+      @touchend="handleTouchEnd"
     >
-      {{ value }}
-    </div>
-    <canvas ref="canvas" class="canvas"></canvas>
+      <div
+        class="circle"
+        v-for="(value, index) in circleValues"
+        :key="index"
+        :data-value="value"
+        :class="{ active: isActiveCircle(value) }"
+      >
+        {{ value }}
+      </div>
+      <canvas ref="canvas" class="canvas"></canvas>
 
-    <button @click="resetPattern">Reset</button>
-    <div>{{ patternNumbers.join(' ') }}</div>
-  </div>
+      <button @click="resetPattern">Reset</button>
+    </div>
   </div>
 </template>
 
@@ -43,7 +42,7 @@ export default {
   methods: {
     handleTouchStart(event) {
       this.touching = true;
-      this.handleTouchMove(event); // Handle initial touch
+      this.handleTouchMove(event); 
     },
     handleTouchMove(event) {
       if (!this.touching) return;
@@ -89,10 +88,12 @@ export default {
       }
       console.log(`Clicked circle with value: ${value}`);
       console.log('Current pattern numbers:', this.patternNumbers);
+      this.$emit('update-pattern', this.patternNumbers);
       this.drawLine();
     },
     resetPattern() {
       this.patternNumbers = [];
+      this.$emit('update-pattern', this.patternNumbers);
       this.clearCanvas();
       console.log('Pattern numbers reset to empty');
     },
@@ -101,8 +102,8 @@ export default {
     },
     initializeCanvas() {
       const canvas = this.$refs.canvas;
-      canvas.width = 360; // Adjust canvas width
-      canvas.height = 360; // Adjust canvas height
+      canvas.width = 360; 
+      canvas.height = 360; 
       this.clearCanvas();
     },
     clearCanvas() {
@@ -122,8 +123,8 @@ export default {
         const index = this.circleValues.indexOf(value);
         const row = Math.floor(index / 3);
         const col = index % 3;
-        const x = col * 120 + 60; // Adjust for padding and circle size
-        const y = row * 120 + 60; // Adjust for padding and circle size
+        const x = col * 120 + 60; 
+        const y = row * 120 + 60; 
         return { x, y };
       };
 
@@ -150,7 +151,7 @@ export default {
       const endRow = Math.floor(endIndex / 3);
       const endCol = endIndex % 3;
 
-      // Check if the move is along a straight line (horizontal, vertical, diagonal)
+      // Check if the move  (horizontal, vertical, diagonal)
       if (startRow === endRow) {
         // Horizontal line
         const minCol = Math.min(startCol, endCol);
@@ -223,5 +224,4 @@ export default {
   pointer-events: none; 
 /*  */
 }
-
 </style>
